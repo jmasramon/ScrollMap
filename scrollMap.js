@@ -13,16 +13,57 @@
 
     var shadowCtx,
         ctx;
-    var pageHeight = 600,
+    var 
+        // pageHeight = 600,
+        pageHeight = 1180,
         pageLength = 600,
         binHeight = 50,
-        scrollHeights = [0, 25, 50, 100, 110, 250, 299, 401, 450, 500];
+        // scrollHeights = [0, 25, 50, 100, 110, 250, 299, 401, 450, 500];
+        scrollHeights = [0, 50, 60, 110];
 
     function ScrollMap(containerId) {
         var binCount = Math.floor(pageHeight / binHeight),
-            binIntensities = util.calculateBinIntensities(scrollHeights, pageHeight, binCount),
-            maxBinIntensity = Math.max.apply(Math, binIntensities),
-            minBinIntensity = Math.min.apply(Math, binIntensities);
+            // binIntensities = util.calculateBinIntensities(scrollHeights, pageHeight, binCount),
+            binIntensities = [
+                0.37037037037037035,
+                0.37037037037037035,
+                0.37037037037037035,
+                0.37037037037037035,
+                0.37037037037037035,
+                0.37037037037037035,
+                0.4074074074074074,
+                0.4074074074074074,
+                0.4074074074074074,
+                0.4444444444444444,
+                0.4444444444444444,
+                0.4444444444444444,
+                0.4444444444444444,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                1.00,
+                0.6296296296296297,
+                0.6296296296296297,
+                0.6296296296296297,
+                0.6296296296296297,
+                0.6296296296296297,
+                0.6296296296296297,
+                0.5925925925925926,
+                0.5925925925925926,
+                0.5925925925925926,
+                0.5555555555555556,
+                0.5555555555555556,
+                0.5555555555555556,
+                0.5555555555555556],
+            maxBinIntensity = Math.max.apply(Math, binIntensities).toFixed(2),
+            minBinIntensity = Math.min.apply(Math, binIntensities).toFixed(2);
         
         this.binColours = util.calculateBinColours(binIntensities, binCount, 
                                             minBinIntensity, maxBinIntensity);

@@ -128,6 +128,11 @@ describe('Utilities', function() {
 			util.calculateBinIntensities(
 				scrollHeights, pageHeight, binCount))
 		.toEqual([2,1,2,0,0,2,0,0,1,1,1,0]);
+
+		expect(
+			util.calculateBinIntensities(
+				[0, 50, 60, 110], 1180, Math.floor(1180 / binHeight)))
+		.toEqual([ 2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ]);
 	});
 
 	it('should map intensities to proper colours', function() {
@@ -146,12 +151,51 @@ describe('Utilities', function() {
 				0, 0, 2, binCount))
 		.toEqual([255,0,255]);
 		
+		///////////////////////////////////////
+		binCount = Math.floor(1180 / binHeight);
+
+		expect(
+			util.mapIntensityToColor(
+				0.37037037037037035, 0.0, 1.0, binCount))
+		.toEqual([ 0, 217, 255 ]);
+		
+		expect(
+			util.mapIntensityToColor(
+				0.4074074074074074, 0.0, 1.0, binCount))
+		.toEqual([ 0, 255, 245 ]);
+		
+		expect(
+			util.mapIntensityToColor(
+				0.4444444444444444, 0.0, 1.0, binCount))
+		.toEqual( [ 0, 255, 198 ]);
+		
+		expect(
+			util.mapIntensityToColor(
+				1.00, 0.0, 1.0, binCount))
+		.toEqual([ 255, 0, 0 ]);
+		
+		expect(
+			util.mapIntensityToColor(
+				0.6296296296296297, 0.0, 1.0, binCount))
+		.toEqual([ 37, 255, 0 ]);
+		
+		expect(
+			util.mapIntensityToColor(
+				0.5925925925925926, 0.0, 1.0, binCount))
+		.toEqual([ 0, 255, 9 ]);
+		
+		expect(
+			util.mapIntensityToColor(
+				0.5555555555555556, 0.0, 1.0, binCount))
+		.toEqual([ 0, 255, 56 ]);
+		
 	});
 
 	it('should calculate bin Colours', function() {
 		var binIntensities = util.calculateBinIntensities(scrollHeights, pageHeight, binCount),
 			maxBinIntensity = Math.max.apply(Math, binIntensities),
 	        minBinIntensity = Math.min.apply(Math, binIntensities);	
+		
 		expect(
 			util.calculateBinColours (
 				binIntensities, binCount, minBinIntensity, maxBinIntensity))
@@ -159,6 +203,76 @@ describe('Utilities', function() {
 					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 0 ], 
 					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 0, 255, 127 ], 
 					[ 0, 255, 127 ], [ 0, 255, 127 ], [ 255, 0, 255 ] ]);
+		
+		expect(
+			util.calculateBinColours (
+				util.calculateBinIntensities(
+					[0, 50, 60, 110], 1180, Math.floor(1180 / binHeight)), 
+					Math.floor(1180 / binHeight), 
+					minBinIntensity, maxBinIntensity))
+		.toEqual( [ [ 255, 0, 0 ], [ 0, 255, 127 ], [ 0, 255, 127 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 255 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 255 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 255 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 255 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 255 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ], [ 255, 0, 255 ], 
+					[ 255, 0, 255 ], [ 255, 0, 255 ] ]);
+
+        binIntensities = [
+            0.37037037037037035,
+            0.37037037037037035,
+            0.37037037037037035,
+            0.37037037037037035,
+            0.37037037037037035,
+            0.37037037037037035,
+            0.4074074074074074,
+            0.4074074074074074,
+            0.4074074074074074,
+            0.4444444444444444,
+            0.4444444444444444,
+            0.4444444444444444,
+            0.4444444444444444,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            1.00,
+            0.6296296296296297,
+            0.6296296296296297,
+            0.6296296296296297,
+            0.6296296296296297,
+            0.6296296296296297,
+            0.6296296296296297,
+            0.5925925925925926,
+            0.5925925925925926,
+            0.5925925925925926,
+            0.5555555555555556,
+            0.5555555555555556,
+            0.5555555555555556,
+            0.5555555555555556];	
+		
+		expect(
+			util.calculateBinColours (
+				binIntensities, Math.floor(1180 / binHeight), 0.0, 1.0))
+		.toEqual( [ [ 0, 217, 255 ], [ 0, 217, 255 ], [ 0, 217, 255 ], 
+					[ 0, 217, 255 ], [ 0, 217, 255 ], [ 0, 217, 255 ], 
+					[ 0, 255, 245 ], [ 0, 255, 245 ], [ 0, 255, 245 ], 
+					[ 0, 255, 198 ], [ 0, 255, 198 ], [ 0, 255, 198 ], 
+					[ 0, 255, 198 ], [ 255, 0, 0 ], [ 255, 0, 0 ], 
+					[ 255, 0, 0 ], [ 255, 0, 0 ], [ 255, 0, 0 ], 
+					[ 255, 0, 0 ], [ 255, 0, 0 ], [ 255, 0, 0 ], 
+					[ 255, 0, 0 ], [ 255, 0, 0 ], [ 255, 0, 0 ], 
+					[ 37, 255, 0 ], [ 37, 255, 0 ], [ 37, 255, 0 ], 
+					[ 37, 255, 0 ], [ 37, 255, 0 ], [ 37, 255, 0 ], 
+					[ 0, 255, 9 ], [ 0, 255, 9 ], [ 0, 255, 9 ], 
+					[ 0, 255, 56 ], [ 0, 255, 56 ], [ 0, 255, 56 ], [ 0, 255, 56 ] ]);
 	});
 
 	
